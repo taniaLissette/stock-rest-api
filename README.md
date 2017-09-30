@@ -1,6 +1,6 @@
 # What was done?
 # Architecture
-It was chosen to use the most simple architectural type - Multi-Layered Architecture.
+It was chosen to use the most simple architectural type - Multi-Layered Architecture (persistence, service and web layers).
 From user's standpoint, UI is communicating with back-end over REST and form-submission (in case of login flow (for simplicity))
 
 # Structure
@@ -21,22 +21,26 @@ Clients use JSESSIONID over secure cookie with CSRF token in header (against XSR
 
 # Stack
 * Java 8
-* Spring Boot/MVC/Security/REST
+* Spring Boot/MVC/Security/REST/Data
 * Lombok
 * JUnit + Spring Boot Test
 * Pitest
 * Thymeleaf
+* Footable
 
 # Tests 
 ### Pitest
-Service and web layers were covered by JUnit and Pitest. Web layer (line coverage 91% and mutation coverage 85%) and service layer (line coverage 96% and mutation coverage 90%).  
+Service and web layers were covered by JUnit and Pitest usage. Web layer (line coverage 91% and mutation coverage 85%) and service layer (line coverage 96% and mutation coverage 90%).  
+
+Execute the following command on service and web layer to run tests with Pitest mutation:
 
 mvn org.pitest:pitest-maven:mutationCoverage 
 
-After running all the tests and performing all the mutations, you need to open /service(web)/target/pit-reports/datetimestamp/index.html
+After running all the tests and performing all the mutations, you need to open /service(web)/target/pit-reports/datetimestamp/index.html. Here you can find reports with line and mutation coverage.
 
 # JavaDocs
-Code is documented with in-depth details. You can pass through the classes to follow the flow along with reading comments
+Code is documented with in-depth details. You can pass through the classes to follow the flow along with reading comments.
+REST APi is documented by Swagger annotations and available at https://localhost:8443/swagger-ui.html
 
 # Users
 There is one default user:
@@ -51,6 +55,16 @@ mvn clean install
 Application has embedded Tomcat, so the only one thing you need is to run
 
 java -jar web/target/web-0.0.1-SNAPSHOT.jar  
+
+# Application flow
+1. Go to https://localhost:8443 (or http://localhost:8080 - you will be always redirected to 8443 port)
+2. Use login and password from Users section to log in
+3. In case of successful login, you appear to be at stock dashboard page
+4. At dashboard page, you can find table with all of stocks and you can save/edit/delete any stock
+5. Click 'Edit Rows' to have 'edit' buttons  appeared.
+6. To add new stock, click 'New Row', fill out required fields and click Save. New row will appear in the table.
+7. To edit existing stock, click pencil icon on interesting row, change current price (user can change current price of stock only) and clich Save. Stock in the table will be updated automatically.
+8. To delete a stock, click trash bin icon on interesting row and confirm you want to delete. Table will be updated automatically.
 
 ![Login Form](https://image.ibb.co/fM7RFb/image.png)
 ![Stock Dashboard](https://image.ibb.co/b2Bsow/image.png)
